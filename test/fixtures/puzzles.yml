@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  word: one
+  puzzle_date: 2025-05-11
+  puzzle_number: 1
+
+two:
+  word: two
+  puzzle_date: 2025-05-11
+  puzzle_number: 1

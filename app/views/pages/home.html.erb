@@ -1,0 +1,22 @@
+<div class="flex flex-col items-center justify-center gap-4 max-w-md">
+  <div><%= image_tag("wordle_logo.svg", width: "100") %></div>
+  <div><h1 class="text-3xl font-bold">GCD'le</h1></div>
+  <div>Just like that other word game...but for GCD!</div>
+  <% if false %>
+    <div><%= link_to "Play", new_game_path, class: "btn btn-primary" %> </div>
+  <% end %>
+  <div><%= link_to "Play", "https://www.google.com", class: "btn btn-primary" %> </div>
+  <div class="text-center">
+    <% if false %>
+      <b><%= @current_game_date.to_fs(:long_ordinal) %></b>
+      <%= tag.br %>
+      Game Number <%= @current_game_number %>
+    <% end %>
+    Date goes here...
+    <%= tag.br %>
+    Game Number goes here...
+  </div>
+</div>
+
+
+

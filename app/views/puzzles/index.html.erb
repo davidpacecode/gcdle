@@ -7,21 +7,41 @@
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Puzzles</h1>
-    <%= link_to "New puzzle", new_puzzle_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <%= link_to "New puzzle", new_puzzle_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" if authenticated? %>
   </div>
 
   <div id="puzzles" class="min-w-full divide-y divide-gray-200 space-y-5">
     <% if @puzzles.any? %>
-      <% @puzzles.each do |puzzle| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render puzzle %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", puzzle, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_puzzle_path(puzzle), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", puzzle, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
-          </div>
-        </div>
-      <% end %>
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Puzzle Number</th>
+            <th>Puzzle Date</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @puzzles.each do |puzzle| %>
+            <tr>
+              <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+                <%# <%= render puzzle %>
+                <td><%= puzzle.puzzle_number %></td>
+                <td><%= puzzle.puzzle_date.to_fs(:long_ordinal) %></td>
+                <td>
+                  <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
+                    <%= "Hello" %>
+                    <%= link_to "Show", puzzle, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" if authenticated? %>
+                    <%= link_to "Edit", edit_puzzle_path(puzzle), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" if authenticated? %>
+                    <%= button_to "Destroy", puzzle, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } if authenticated? %>
+                  </div>
+                </td>
+              </div>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% else %>
       <p class="text-center my-10">No puzzles found.</p>
     <% end %>

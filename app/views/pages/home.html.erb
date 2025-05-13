@@ -12,9 +12,9 @@
       <%= tag.br %>
       Game Number <%= @current_game_number %>
     <% end %>
-    Date goes here...
+    <b><%= @current_puzzle_date.to_fs(:long_ordinal) %></b>
     <%= tag.br %>
-    Game Number goes here...
+    Game Number: <%= @current_puzzle_number %>
   </div>
 </div>
 

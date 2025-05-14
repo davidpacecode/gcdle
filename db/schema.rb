@@ -10,9 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_13_032827) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_14_025446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "games", force: :cascade do |t|
+    t.bigint "puzzle_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["puzzle_id"], name: "index_games_on_puzzle_id"
+  end
+
+  create_table "guesses", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.string "value"
+    t.integer "guess_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_guesses_on_game_id"
+  end
 
   create_table "puzzles", force: :cascade do |t|
     t.bigint "word_id", null: false
@@ -46,6 +63,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_032827) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "games", "puzzles"
+  add_foreign_key "guesses", "games"
   add_foreign_key "puzzles", "words"
   add_foreign_key "sessions", "users"
 end

@@ -1,12 +1,25 @@
 <% content_for :title, "New game" %>
 
-<%= "game_status = #{@game_status}" %>
-<%= tag.br %>
-
 <div class="md:w-2/3 w-full">
   <h1 class="font-bold text-4xl">New game</h1>
+
+  <%= tag.br %>
+  <b>Puzzle Number:</b> <%= @puzzle.puzzle_number %>
+  <%= tag.br %>
+  <b>Puzzle Date:</b> <%= @puzzle.puzzle_date.to_fs(:long_ordinal) %>
+  <%= tag.br %>
 
   <%= render "form", game: @game %>
 
   <%= link_to "Back to games", games_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+
+  <p>
+    <%= tag.br %>
+    <%= "answer = #{@word.value}" %>
+    <%= tag.br %>
+    <%= "game_status = #{@game_status}" %>
+    <%= tag.br %>
+  </p>
 </div>
+
+

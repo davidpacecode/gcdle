@@ -22,6 +22,7 @@ class GamesController < ApplicationController
     @guesses = session[:current_game][:guesses]
     @game_status = session[:current_game][:status]
     @puzzle = Puzzle.find(session[:current_game][:puzzle_id])
+    @word = Word.find(session[:current_game][:word_id])
   end
 
   # GET /games/1/edit
@@ -84,7 +85,8 @@ class GamesController < ApplicationController
       puzzle_id: puzzle.id,
       current_guess: "",
       guesses: [],
-      status: "active"
+      status: "active",
+      word_id: puzzle.word_id
     }
   end
 end

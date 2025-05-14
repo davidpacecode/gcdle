@@ -14,6 +14,14 @@ class GamesController < ApplicationController
   # GET /games/new
   def new
     @game = Game.new
+
+    puzzle_id = params[:puzzle_id]
+    setup_game_session(puzzle_id) if puzzle_id.present?
+
+    @current_guess = session[:current_game][:current_guess]
+    @guesses = session[:current_game][:guesses]
+    @game_status = session[:current_game][:status]
+    @puzzle = Puzzle.find(session[:current_game][:puzzle_id])
   end
 
   # GET /games/1/edit
@@ -68,4 +76,15 @@ class GamesController < ApplicationController
     def game_params
       params.expect(game: [ :puzzle_id, :status ])
     end
+
+  def setup_game_session(puzzle_id)
+    puzzle = Puzzle.find(puzzle_id)
+
+    session[:current_game] = {
+      puzzle_id: puzzle.id,
+      current_guess: "",
+      guesses: [],
+      status: "active"
+    }
+  end
 end

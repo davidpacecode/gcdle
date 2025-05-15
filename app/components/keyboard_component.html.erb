@@ -1,0 +1,17 @@
+<div class="mt-6">
+  <% keyboard_rows.each do |row| %>
+    <div class="flex justify-center gap-1 mb-2">
+      <% row.each do |key| %>
+        <button 
+          class="px-2 py-4 rounded font-bold <%= key_class(key) %>"
+          hx-post="<%= submit_path(key) %>"
+          hx-trigger="click"
+          hx-target="#game-board"
+          hx-swap="outerHTML">
+          <%= key %>
+        </button>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+

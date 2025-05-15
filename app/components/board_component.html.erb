@@ -1,0 +1,9 @@
+<div class="flex flex-col items-center">
+  <% max_guesses.times do |i| %>
+    <%= render RowComponent.new(
+      word: guesses[i] || "",
+      states: states[i] || [],
+      word_length: word_length
+    ) %>
+  <% end %>
+</div>

@@ -11,14 +11,48 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :puzzle_id %>
-    <%= form.text_field :puzzle_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": game.errors[:puzzle_id].none?, "border-red-400 focus:outline-red-600": game.errors[:puzzle_id].any?}] %>
-  </div>
+  <div class="grid grid-cols-5 gap-2" id="wordle-grid">
+    <% 5.times do |i| %>
+      <input 
+        type="text" 
+        maxlength="1"
+        class="w-12 h-12 text-center text-xl border-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+        id="letter-<%= i %>"
+        name="guess[<%= i %>]"
+        data-index="<%= i %>"
 
-  <div class="my-5">
-    <%= form.label :status %>
-    <%= form.text_field :status, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": game.errors[:status].none?, "border-red-400 focus:outline-red-600": game.errors[:status].any?}] %>
+        <% if i == 0 %>
+        autofocus
+        hx-on:load="this.focus()"
+        <% end %>
+
+        hx-on:keyup="
+          // Move forward after typing a character
+          if (event.key.length === 1) {
+            const next = document.getElementById('letter-<%= i + 1 %>');
+            if (next) {
+              setTimeout(() => next.focus(), 5);
+            }
+          }
+          
+          // Handle backspace: move back AND clear current cell
+          if (event.key === 'Backspace') {
+            // If current cell has content, just clear it
+            if (this.value !== '') {
+              this.value = '';
+            } 
+            // If current cell is already empty, move to previous and clear it
+            else {
+              const prev = document.getElementById('letter-<%= i - 1 %>');
+              if (prev) {
+                prev.focus();
+                prev.value = ''; // Clear the previous cell too
+              }
+            }
+          }
+        "
+      />
+    <% end %>
   </div>
 
   <div class="inline">

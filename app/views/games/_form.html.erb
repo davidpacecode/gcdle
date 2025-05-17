@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <div class="grid grid-cols-5 gap-2" id="wordle-grid">
+  <div class="flex justify-center space-x-1" id="wordle-grid">
     <% 5.times do |i| %>
       <input 
         type="text" 
@@ -22,8 +22,8 @@
         data-index="<%= i %>"
 
         <% if i == 0 %>
-        autofocus
-        hx-on:load="this.focus()"
+          autofocus
+          hx-on:load="this.focus()"
         <% end %>
 
         hx-on:keyup="

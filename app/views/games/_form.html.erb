@@ -1,61 +1,30 @@
-<%= form_with(model: game, class: "contents") do |form| %>
-  <% if game.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+  <%= form_with(model: game, class: "w-full") do |form| %>
+    <% if game.errors.any? %>
+      <div class="alert alert-error mb-4 shadow-lg">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved</span>
+        </div>
+      </div>
+    <% end %>
 
-      <ul class="list-disc ml-6">
-        <% game.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+    <!-- Game board -->
+    <div class="card bg-base-200 shadow-xl p-6 mb-6">
+      <div data-controller="input-focus" class="grid grid-cols-5 gap-2 mx-auto">
+        <% 5.times do |i| %>
+          <input 
+            type="text" 
+            maxlength="1"
+            class="w-14 h-14 text-center text-2xl font-bold border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-base-100 uppercase"
+            name="guess[<%= i %>]"
+            data-input-focus-target="field"
+            data-action="keydown->input-focus#handleKey"
+          />
         <% end %>
-      </ul>
+      </div>
+
+      <div class="flex justify-center mt-6">
+        <%= form.submit "Submit", class: "btn btn-primary btn-lg" %>
+      </div>
     </div>
   <% end %>
-
-  <div class="flex justify-center space-x-1" id="wordle-grid">
-    <% 5.times do |i| %>
-      <input 
-        type="text" 
-        maxlength="1"
-        class="w-12 h-12 text-center text-xl border-2 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-        id="letter-<%= i %>"
-        name="guess[<%= i %>]"
-        data-index="<%= i %>"
-
-        <% if i == 0 %>
-          autofocus
-          hx-on:load="this.focus()"
-        <% end %>
-
-        hx-on:keyup="
-          // Move forward after typing a character
-          if (event.key.length === 1) {
-            const next = document.getElementById('letter-<%= i + 1 %>');
-            if (next) {
-              setTimeout(() => next.focus(), 5);
-            }
-          }
-          
-          // Handle backspace: move back AND clear current cell
-          if (event.key === 'Backspace') {
-            // If current cell has content, just clear it
-            if (this.value !== '') {
-              this.value = '';
-            } 
-            // If current cell is already empty, move to previous and clear it
-            else {
-              const prev = document.getElementById('letter-<%= i - 1 %>');
-              if (prev) {
-                prev.focus();
-                prev.value = ''; // Clear the previous cell too
-              }
-            }
-          }
-        "
-      />
-    <% end %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-  </div>
-<% end %>

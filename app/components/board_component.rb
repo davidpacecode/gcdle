@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 class BoardComponent < ViewComponent::Base
-  attr_reader :target_word, :guesses, :game_id
+  attr_reader :target_word, :guesses, :puzzle_id
 
-  def initialize(target_word:, guesses: [], game_id: nil)
+  def initialize(target_word:, guesses: [], puzzle_id: nil)
     @target_word = target_word
     @guesses = guesses
-    @game_id = game_id
+    @puzzle_id = puzzle_id
+  end
+
+  def board_message
+    "You can do it!"
   end
 
   def rows
@@ -16,23 +20,15 @@ class BoardComponent < ViewComponent::Base
       # Add rows for existing guesses
       result << render(RowComponent.new(
         target_word: target_word,
-        guess: guess,
-        row_index: index
+        guess: guesses[i],
       ))
     end
 
-    # Add empty rows up to 6 total
-    #    remaining_rows = 6 - guesses.length
-    #    remaining_rows.times.with_index do |_, i|
-    #      active = i == 0 && guesses.length < 6 && guesses.last != target_word
-    #      result << render(RowComponent.new(
-    #        target_word: target_word,
-    #        row_index: guesses.length + i,
-    #        active: active
-    #      ))
-    #    end
+   result
+  end
 
-    result
+  def board_image
+    "yes_sweet.gif"
   end
 
   def game_over?
